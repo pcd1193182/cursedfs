@@ -3,7 +3,7 @@
 Make a disk image formatted with both ZFS and FAT, at once.
 
 ```bash
-~/cursedfs% wget 'https://github.com/pcd1193182/cursedfs/releases/download/v1.0/cursed.img'
+~/cursedfs% wget 'https://github.com/pcd1193182/cursedfs/releases/download/v1.1/cursed.img'
 ~/cursedfs% sudo umount mountpoint/
 ~/cursedfs% sudo mount -o loop -t msdos cursed.img mountpoint/
 ~/cursedfs% ls mountpoint/
