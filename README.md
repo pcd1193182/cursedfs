@@ -1,31 +1,31 @@
 # cursedfs
 
-Make a disk image formatted with both ext2 and FAT, at once.
+Make a disk image formatted with both ZFS and FAT, at once.
 
 ```bash
-~/cursedfs% wget 'https://github.com/NieDzejkob/cursedfs/releases/download/v1.0/cursed.img'
-~/cursedfs% sudo mount -o loop -t ext2 cursed.img mountpoint/
-~/cursedfs% ls mountpoint/
-mkfs.cursed
+~/cursedfs% wget 'https://github.com/pcd1193182/cursedfs/releases/download/v1.0/cursed.img'
 ~/cursedfs% sudo umount mountpoint/
 ~/cursedfs% sudo mount -o loop -t msdos cursed.img mountpoint/
 ~/cursedfs% ls mountpoint/
-gudnuse.ogg
+duckroll.jpg
+~/cursedfs% sudo zpool import cursed .
+~/cursedfs% ls /cursed/
+rickroll.jpg
 ```
 
 # Why?
 
-[I got nerd-sniped](https://twitter.com/Foone/status/1217162186130198529?s=20)
+[I got nerd-sniped](https://twitter.com/NieDzejkob/status/1217221249409191936)
 
 # How?
 
-It turns out this is surprisingly simple to do: just create a FAT volume with a
-lot of reserved sectors and put the ext2 into the reserved sectors. This works
-because the filesystems choose different places to put their superblock: FAT
-uses the very first sector, while ext2 leaves the first kilobyte unused.
+Bulding on NieDzejkob's great work, since zfs leaves the first 8k of
+the disk empty, you can easily have the two coexist. The FAT
+filesystem lives in zfs's 3.5M of reserved boot space. This can be
+extended with a read-only ext2 filesystem as well; I'll try that
+eventually
 
 # Can I write to the filesystems?
 
-Yes! When I first decided to do this, I thought writing to the image would
-surely break everything, but as it turns out, the method I've found means
-the filesystems don't conflict.
+Yes! Because FAT reserves the sectors used by ZFS's labels and ZFS
+doesn't write to the boot space, both exist in harmony.
