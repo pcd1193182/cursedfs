@@ -2,10 +2,13 @@
 
 set -euxo pipefail
 FAT_TMP="$(mktemp)"
-trap "rm $FAT_TMP" EXIT
+EXT2_TMP="$(mktemp)"
+trap "rm $FAT_TMP $EXT2_TMP" EXIT
 
 truncate -s 64M cursed.img
 truncate -s 4M $FAT_TMP
-mkfs.fat -R 1024 cursed.img
-dd if=$FAT_TMP of=cursed.img bs=512 skip=1 seek=1 conv=notrunc
+mkext2 $EXT2_TMP 2048 1024
+mkfs.fat -R 2048 $FAT_TMP
+dd if=$EXT2_TMP of=$FAT_TMP bs=512 skip=1 seek=1 conv=notrunc
+dd if=$FAT_TMP of=cursed.img bs=512 conv=notrunc
 sudo zpool create cursed $(pwd)/cursed.img
