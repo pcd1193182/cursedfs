@@ -3,7 +3,7 @@
 Make a disk image formatted with ZFS, ext2, and FAT all at once.
 
 ```bash
-~/cursedfs% wget 'https://github.com/pcd1193182/cursedfs/releases/download/v1.1/cursed.img'
+~/cursedfs% wget 'https://github.com/pcd1193182/cursedfs/releases/download/v2.0/cursed.img'
 ~/cursedfs% sudo mount -o loop -t msdos cursed.img mountpoint/
 ~/cursedfs% ls mountpoint/
 duckroll.jpg
